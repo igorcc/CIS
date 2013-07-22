@@ -3,9 +3,18 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.1.RELEASE.xsd">
 
+    <!-- access to resources in application server -->
+        <bean id="cisDS" class="org.springframework.jndi.JndiObjectFactoryBean">
+                <property name="jndiName" value="jdbc/cis"/>
+                <property name="lookupOnStartup" value="false"/>
+                <property name="cache" value="true"/>
+                <property name="proxyInterface" value="javax.sql.DataSource"/>
+        </bean>
+
+    
     <bean id="HibernateSessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-        <property name="dataSource" ref="treasuryDS"/>
-        <property name="packagesToScan" value="com.igo.esc.api.db"/>
+        <property name="dataSource" ref="cisDS"/>
+        <property name="packagesToScan" value="com.igo.fund.db"/>
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
